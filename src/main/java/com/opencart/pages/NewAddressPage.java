@@ -1,14 +1,10 @@
 package com.opencart.pages;
 
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
 
-import java.util.List;
-
-public class EditAddressPage {
+public class NewAddressPage {
 
     @FindBy(id = "input-firstname")
     private WebElement firstname;
@@ -32,13 +28,16 @@ public class EditAddressPage {
     private WebElement postcode;
 
     @FindBy(id = "input-country")
-    private Select country;
+    private WebElement country;
 
     @FindBy(id = "input-zone")
-    private Select zone;
+    private WebElement zone;
 
-    @FindBy(className = "radio-inline")
-    private WebElement yesNoButton;
+    @FindBy(xpath = "//*[@id=\"content\"]/form/fieldset/div[10]/div/label[1]/input")
+    private WebElement checkYes;
+
+    @FindBy(xpath = "//*[@id=\"content\"]/form/fieldset/div[10]/div/label[2]/input")
+    private  WebElement checkNo;
 
     public void inputFirstname(String text) {
         firstname.click();
@@ -83,23 +82,32 @@ public class EditAddressPage {
     }
 
     public void selectCountry(String text) {
-        country.selectByVisibleText(text);
+        country.findElement(By.cssSelector("option[value = "+text+"}]"));
+        country.click();
     }
 
     public void selectZone(String text) {
-        zone.selectByVisibleText(text);
+        zone.findElement(By.cssSelector("option[value = "+text+"}]"));
+        zone.click();
     }
 
     public void clickYesDefault() {
-
-        yesNoButton.findElement(By.linkText("Yes"));
+        checkYes.click();
     }
 
     public void clickNoDefault() {
-        yesNoButton.findElement(By.linkText("Yes"));
-
+        checkNo.click();
     }
 
-
-
+    public void setEdit() {
+        inputFirstname("andrii");
+        inputLastname("Iatskiv");
+        inputCompany("hzCompany");
+        inputAddress1("Lychakivska street");
+        inputCity("Kyiv");
+        inputPostcode("30037");
+        selectCountry("Togo");
+        selectZone("Kara");
+        clickNoDefault();
+    }
 }
