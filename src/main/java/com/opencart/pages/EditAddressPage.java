@@ -31,14 +31,23 @@ public class EditAddressPage {
     @FindBy(id = "input-postcode")
     private WebElement postcode;
 
-    @FindBy(id = "input-country")
-    private Select country;
+    @FindBy(css = "#input-country > option:nth-child(226)")
+    private WebElement country;
 
-    @FindBy(id = "input-zone")
-    private Select zone;
+    @FindBy(xpath = "//*[@id=\"input-zone\"]/option[3]")
+    private WebElement zone;
+
+    @FindBy(xpath = "//*[@id=\"input-zone\"]/option[2]")
+    private WebElement zoneInAdd;
 
     @FindBy(className = "radio-inline")
     private WebElement yesNoButton;
+
+    @FindBy(xpath = "//*[@id=\"content\"]/form/div/div[2]/input")
+    private WebElement continueButton;
+
+    @FindBy(css = "#content > form > div > div.pull-left > a")
+    private WebElement backButton;
 
     public void inputFirstname(String text) {
         firstname.click();
@@ -83,21 +92,33 @@ public class EditAddressPage {
     }
 
     public void selectCountry(String text) {
-        country.selectByVisibleText(text);
+        country.click();
+    }
+
+    public void clickContinueButton() {
+        continueButton.click();
     }
 
     public void selectZone(String text) {
-        zone.selectByVisibleText(text);
+        zone.click();
+    }
+    public void selectZoneInAdd(String text) {
+        zoneInAdd.click();
     }
 
     public void clickYesDefault() {
 
         yesNoButton.findElement(By.linkText("Yes"));
+        yesNoButton.click();
     }
 
     public void clickNoDefault() {
         yesNoButton.findElement(By.linkText("Yes"));
+        yesNoButton.click();
+    }
 
+    public void clickBackButton() {
+        backButton.click();
     }
 
 

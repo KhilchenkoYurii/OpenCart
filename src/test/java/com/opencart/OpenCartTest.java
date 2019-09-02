@@ -11,7 +11,7 @@ public class OpenCartTest
 {
     private WebDriver driver;
     private EditAddressPage editAddressPage;
-    private NewAddressPage newAddressPage;
+   // private NewAddressPage newAddressPage;
     private AddressBookPage addressBookPage;
 
     @BeforeClass
@@ -41,13 +41,13 @@ public class OpenCartTest
     public void toCreate() {
         addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
         addressBookPage.newAddressClick();
-        newAddressPage = PageFactory.initElements(driver,NewAddressPage.class);
+        editAddressPage = PageFactory.initElements(driver,EditAddressPage.class);
     }
 
     @AfterMethod
     public void toAddressBook() {
-        addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
-        addressBookPage.openPage(driver);
+       // addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
+        //addressBookPage.openPage(driver);
     }
     @Test(groups = "edit")
     public void editAddressNormalData() {
@@ -58,50 +58,127 @@ public class OpenCartTest
         editAddressPage.inputCity("Kyiv");
         editAddressPage.inputPostcode("30037");
         editAddressPage.selectCountry("Togo");
-
-        //Thread.sleep(1000);
         editAddressPage.selectZone("Kara");
-        editAddressPage.clickNoDefault();
+       // editAddressPage.clickNoDefault();
+        editAddressPage.clickContinueButton();
     }
     @Test(groups = "edit")
     public void editAddressNumbers() {
+        editAddressPage.inputFirstname("12345");
+        editAddressPage.inputLastname("12345");
+        editAddressPage.inputCompany("12345");
+        editAddressPage.inputAddress1("12345");
+        editAddressPage.inputCity("12345");
+        editAddressPage.inputPostcode("12345");
+        editAddressPage.selectCountry("Togo");
+
+        //Thread.sleep(1000);
+        editAddressPage.selectZone("Kara");
+        // editAddressPage.clickNoDefault();
+        editAddressPage.clickContinueButton();
     }
 
     @Test(groups = "edit")
     public void editAddressSpecSymbols() {
+        editAddressPage.inputFirstname("!@#$%");
+        editAddressPage.inputLastname("!@#$%");
+        editAddressPage.inputCompany("!@#$%");
+        editAddressPage.inputAddress1("!@#$%");
+        editAddressPage.inputCity("!@#$%");
+        editAddressPage.inputPostcode("!@#$%");
+        editAddressPage.selectCountry("Togo");
+
+        //Thread.sleep(1000);
+        editAddressPage.selectZone("Kara");
+        // editAddressPage.clickNoDefault();
+        editAddressPage.clickContinueButton();
     }
 
     @Test(groups = "edit")
     public void editAddressEmptyData() {
+        editAddressPage.inputFirstname("");
+        editAddressPage.inputLastname("");
+        editAddressPage.inputCompany("");
+        editAddressPage.inputAddress1("");
+        editAddressPage.inputCity("");
+        editAddressPage.inputPostcode("");
+        editAddressPage.selectCountry("Togo");
+
+        //Thread.sleep(1000);
+        editAddressPage.selectZone("Kara");
+        // editAddressPage.clickNoDefault();
+        editAddressPage.clickContinueButton();
     }
 
     @Test(groups = "edit")
     public void editAddressMinSymbols() {
+        editAddressPage.inputFirstname("a");
+        editAddressPage.inputLastname("a");
+        editAddressPage.inputCompany("a");
+        editAddressPage.inputAddress1("aaa");
+        editAddressPage.inputCity("aa");
+        editAddressPage.inputPostcode("aa");
+        editAddressPage.selectCountry("Togo");
+
+        //Thread.sleep(1000);
+        editAddressPage.selectZone("Kara");
+        // editAddressPage.clickNoDefault();
+        editAddressPage.clickContinueButton();
     }
 
     @Test(groups = "edit")
     public void editAddressMaxSymbols() {
-        AddressBookPage addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
-        addressBookPage.editClick();
+        editAddressPage.inputFirstname("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        editAddressPage.inputLastname("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        editAddressPage.inputCompany("a");
+        editAddressPage.inputAddress1("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        editAddressPage.inputCity("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        editAddressPage.inputPostcode("aaaaaaaaaa");
+        editAddressPage.selectCountry("Togo");
+
+        //Thread.sleep(1000);
+        editAddressPage.selectZone("Kara");
+        // editAddressPage.clickNoDefault();
+        editAddressPage.clickContinueButton();
     }
 
     @Test(groups = "edit")
     public void editAddressUnderMaxSymbols() {
-        AddressBookPage addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
-        addressBookPage.editClick();
+        editAddressPage.inputFirstname("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        editAddressPage.inputLastname("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        editAddressPage.inputCompany("aa");
+        editAddressPage.inputAddress1("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        editAddressPage.inputCity("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        editAddressPage.inputPostcode("aaaaaaaaaaa");
+        editAddressPage.selectCountry("Togo");
+
+        //Thread.sleep(1000);
+        editAddressPage.selectZone("Kara");
+        // editAddressPage.clickNoDefault();
+        editAddressPage.clickContinueButton();
     }
     @Test(groups = "edit")
     public void editBackButton() {
-
+        editAddressPage.clickBackButton();
     }
 
     @Test
     public void deleteAddress() {
-
+    addressBookPage.deleteClick();
 }
+
     @Test(groups = "create")
     public void createAddressNormalData() {
-
+        editAddressPage.inputFirstname("andrii");
+        editAddressPage.inputLastname("Iatskiv");
+        editAddressPage.inputCompany("hzCompany");
+        editAddressPage.inputAddress1("Lychakivska street");
+        editAddressPage.inputCity("Kyiv");
+        editAddressPage.inputPostcode("30037");
+        editAddressPage.selectCountry("Togo");
+        editAddressPage.selectZone("Kara");
+        // editAddressPage.clickNoDefault();
+        editAddressPage.clickContinueButton();
     }
     @Test(groups = "create")
     public void createAddressNumbers() {
