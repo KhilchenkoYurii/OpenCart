@@ -1,4 +1,4 @@
-package com.opencart.pages;
+package com.opencart.OtherPages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,12 +11,12 @@ public class LoginPage {
     @FindBy(id = "input-password")
     private  WebElement passwordInput;
 
-    @FindBy(xpath = "//*[@id=\"content\"]/div/div[2]/div/form/input")
+    @FindBy(xpath = "//input[@class = 'btn btn-primary']")
     private WebElement loginButton;
 
     private static final String PASS = "qwerty";
 
-    private static final String EMAIL = "fyck414@gmail.com";
+    private static final String EMAIL = "roman@gmail.com";
 
     public void logining()
     {

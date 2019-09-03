@@ -1,10 +1,9 @@
-package com.opencart.pages;
+package com.opencart.AddressBookPages;
 
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 
@@ -31,23 +30,26 @@ public class EditAddressPage {
     @FindBy(id = "input-postcode")
     private WebElement postcode;
 
-    @FindBy(css = "#input-country > option:nth-child(226)")
+    @FindBy(id = "input-country")
     private WebElement country;
 
-    @FindBy(xpath = "//*[@id=\"input-zone\"]/option[3]")
+    @FindBy(id = "input-zone")
     private WebElement zone;
 
-    @FindBy(xpath = "//*[@id=\"input-zone\"]/option[2]")
-    private WebElement zoneInAdd;
+    @FindBy(xpath = "//input[@name ='default' and @value ='1']")
+    private WebElement yesButton;
 
-    @FindBy(className = "radio-inline")
-    private WebElement yesNoButton;
+    @FindBy(xpath = "//input[@name ='default' and @value ='0']")
+    private WebElement noButton;
 
-    @FindBy(xpath = "//*[@id=\"content\"]/form/div/div[2]/input")
+    @FindBy(xpath = "//input[@class='btn btn-primary']")
     private WebElement continueButton;
 
-    @FindBy(css = "#content > form > div > div.pull-left > a")
+    @FindBy(xpath = "//a[@class='btn btn-default']")
     private WebElement backButton;
+
+    @FindBy(xpath = "//div[contains(@class,'text-danger')]")
+    private WebElement errorText;
 
     public void inputFirstname(String text) {
         firstname.click();
@@ -92,6 +94,8 @@ public class EditAddressPage {
     }
 
     public void selectCountry(String text) {
+        String xpath = String.format("//option[text()='%s']", text);
+        country = country.findElement(By.xpath(xpath));
         country.click();
     }
 
@@ -100,27 +104,26 @@ public class EditAddressPage {
     }
 
     public void selectZone(String text) {
+        String xpath = String.format("//option[text()='%s']", text);
+        zone = zone.findElement(By.xpath(xpath));
         zone.click();
-    }
-    public void selectZoneInAdd(String text) {
-        zoneInAdd.click();
     }
 
     public void clickYesDefault() {
-
-        yesNoButton.findElement(By.linkText("Yes"));
-        yesNoButton.click();
+        yesButton.click();
     }
 
     public void clickNoDefault() {
-        yesNoButton.findElement(By.linkText("Yes"));
-        yesNoButton.click();
+        noButton.click();
     }
 
     public void clickBackButton() {
         backButton.click();
     }
 
+    public String getErorrText() {
+        return errorText.getText();
+    }
 
 
 }

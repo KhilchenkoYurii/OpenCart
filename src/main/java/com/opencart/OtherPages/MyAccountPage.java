@@ -1,14 +1,14 @@
-package com.opencart.pages;
+package com.opencart.OtherPages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class MyAccountPage {
 
-    @FindBy(xpath = "//*[@id=\"content\"]/ul[1]/li[3]/a" )
+    @FindBy(xpath = "//a[text()='Address Book']" )
     private WebElement addressLink;
 
-    @FindBy(css = "#column-right > div > a:nth-child(6)")
+    @FindBy(xpath = "//a[text()='Order History' and @class]")
     private WebElement historyLink;
 
     public void addressClick() {

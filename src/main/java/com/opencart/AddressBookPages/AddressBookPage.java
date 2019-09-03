@@ -1,4 +1,4 @@
-package com.opencart.pages;
+package com.opencart.AddressBookPages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,11 +14,18 @@ public class AddressBookPage {
     @FindBy(linkText = "Edit")
     private WebElement editButton;
 
-    @FindBy(linkText = "Delete")
+    @FindBy(xpath = "//a[contains(@class,'btn btn-danger')]")
     private WebElement deleteButton;
 
     @FindBy(linkText = "New Address")
     private WebElement newAddressButton;
+
+    @FindBy(xpath = "//div[contains(@class,'alert alert-success')]")
+    private WebElement updateText;
+
+    @FindBy(xpath = "//div[contains(@class,'alert alert-warning')]")
+    private WebElement warningText;
+
 
     public void openPage(WebDriver driver){
         this.driver = driver;
@@ -34,5 +41,13 @@ public class AddressBookPage {
 
     public void newAddressClick() {
         newAddressButton.click();
+    }
+
+    public String getUpdateText() {
+        return updateText.getText();
+    }
+
+    public String getWarningText() {
+        return warningText.getText();
     }
 }

@@ -1,9 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <suite name="Test Suite" verbose="2">
-    <test name="User Tests">
+    <test name="Edit Tests">
+        <groups>
+            <run>
+                <include name="edit"/>
+            </run>
+        </groups>
         <classes>
-            <class name="com.opencart.OpenCartTest" />
+            <class name="com.opencart.OpenCartTest"/>
+        </classes>
+    </test>
+    <test name="Create Tests">
+
+        <groups>
+            <run>
+                <include name="create"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.opencart.OpenCartTest"/>
+        </classes>
+    </test>
+    <test name="Other Tests">
+
+        <classes>
+            <class name="com.opencart.OpenCartTest">
+                <methods>
+                    <include name="deleteAddress"/>
+                    <include name="deleteAddressNeg"/>
+                </methods>
+            </class>
+            <class name="com.opencart.OrderHistoryTest">
+                <methods>
+                    <include name="orderDetailTest"/>
+                    <include name="reOrderTest"/>
+                    <include name="returnOrderTest"/>
+                </methods>
+            </class>
         </classes>
     </test>
 </suite>

@@ -1,20 +1,23 @@
 package com.opencart;
 
-import com.opencart.pages.*;
+import com.opencart.AddressBookPages.AddressBookPage;
+import com.opencart.AddressBookPages.EditAddressPage;
+import com.opencart.OtherPages.LoginPage;
+import com.opencart.OtherPages.MainPage;
+import com.opencart.OtherPages.MyAccountPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.TestNG;
+import org.testng.Assert;
 import org.testng.annotations.*;
 
-public class OpenCartTest
-{
+public class OpenCartTest {
     private WebDriver driver;
     private EditAddressPage editAddressPage;
-   // private NewAddressPage newAddressPage;
     private AddressBookPage addressBookPage;
+    private String assureString;
 
-    @BeforeClass
+    @BeforeClass(alwaysRun = true)
     public void login() {
         System.setProperty("webdriver.chrome.driver", "C:\\chromedriver.exe");
         driver = new ChromeDriver();
@@ -30,27 +33,46 @@ public class OpenCartTest
         MyAccountPage myAccount = PageFactory.initElements(driver, MyAccountPage.class);
         myAccount.addressClick();
     }
+
+    @AfterClass(alwaysRun = true)
+    public void exit() {
+        driver.close();
+    }
+
     @BeforeGroups(groups = "edit")
     public void toEdit() {
+        assureString = "Your address has been successfully updated";
         addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
         addressBookPage.editClick();
-        editAddressPage = PageFactory.initElements(driver,EditAddressPage.class);
+        editAddressPage = PageFactory.initElements(driver, EditAddressPage.class);
     }
 
     @BeforeGroups(groups = "create")
     public void toCreate() {
+        assureString = "Your address has been successfully inserted";
         addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
         addressBookPage.newAddressClick();
-        editAddressPage = PageFactory.initElements(driver,EditAddressPage.class);
+        editAddressPage = PageFactory.initElements(driver, EditAddressPage.class);
     }
 
-    @AfterMethod
-    public void toAddressBook() {
-       // addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
-        //addressBookPage.openPage(driver);
+    @AfterMethod(groups = "create")
+    public void toAddressBookCreate() {
+        addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
+        addressBookPage.openPage(driver);
+        addressBookPage.newAddressClick();
+        editAddressPage = PageFactory.initElements(driver, EditAddressPage.class);
     }
-    @Test(groups = "edit")
-    public void editAddressNormalData() {
+
+    @AfterMethod(groups = "edit")
+    public void toAddressBookEdit() {
+        addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
+        addressBookPage.openPage(driver);
+        addressBookPage.editClick();
+        editAddressPage = PageFactory.initElements(driver, EditAddressPage.class);
+    }
+
+    @Test(groups = {"edit", "create"})
+    public void editAddressNormalData() throws InterruptedException {
         editAddressPage.inputFirstname("andrii");
         editAddressPage.inputLastname("Iatskiv");
         editAddressPage.inputCompany("hzCompany");
@@ -58,12 +80,16 @@ public class OpenCartTest
         editAddressPage.inputCity("Kyiv");
         editAddressPage.inputPostcode("30037");
         editAddressPage.selectCountry("Togo");
+        Thread.sleep(1000);
         editAddressPage.selectZone("Kara");
-       // editAddressPage.clickNoDefault();
+        editAddressPage.clickNoDefault();
         editAddressPage.clickContinueButton();
+        addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
+        Assert.assertEquals(addressBookPage.getUpdateText(), assureString);
     }
-    @Test(groups = "edit")
-    public void editAddressNumbers() {
+
+    @Test(groups = {"edit", "create"})
+    public void editAddressNumbers() throws InterruptedException {
         editAddressPage.inputFirstname("12345");
         editAddressPage.inputLastname("12345");
         editAddressPage.inputCompany("12345");
@@ -71,15 +97,16 @@ public class OpenCartTest
         editAddressPage.inputCity("12345");
         editAddressPage.inputPostcode("12345");
         editAddressPage.selectCountry("Togo");
-
-        //Thread.sleep(1000);
+        Thread.sleep(1000);
         editAddressPage.selectZone("Kara");
-        // editAddressPage.clickNoDefault();
+        editAddressPage.clickNoDefault();
         editAddressPage.clickContinueButton();
+        addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
+        Assert.assertEquals(addressBookPage.getUpdateText(), assureString);
     }
 
-    @Test(groups = "edit")
-    public void editAddressSpecSymbols() {
+    @Test(groups = {"edit", "create"})
+    public void editAddressSpecSymbols() throws InterruptedException {
         editAddressPage.inputFirstname("!@#$%");
         editAddressPage.inputLastname("!@#$%");
         editAddressPage.inputCompany("!@#$%");
@@ -87,15 +114,16 @@ public class OpenCartTest
         editAddressPage.inputCity("!@#$%");
         editAddressPage.inputPostcode("!@#$%");
         editAddressPage.selectCountry("Togo");
-
-        //Thread.sleep(1000);
+        Thread.sleep(1000);
         editAddressPage.selectZone("Kara");
-        // editAddressPage.clickNoDefault();
+        editAddressPage.clickNoDefault();
         editAddressPage.clickContinueButton();
+        addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
+        Assert.assertEquals(addressBookPage.getUpdateText(), assureString);
     }
 
-    @Test(groups = "edit")
-    public void editAddressEmptyData() {
+    @Test(groups = {"edit", "create"})
+    public void editAddressEmptyData() throws InterruptedException {
         editAddressPage.inputFirstname("");
         editAddressPage.inputLastname("");
         editAddressPage.inputCompany("");
@@ -103,15 +131,15 @@ public class OpenCartTest
         editAddressPage.inputCity("");
         editAddressPage.inputPostcode("");
         editAddressPage.selectCountry("Togo");
-
-        //Thread.sleep(1000);
+        Thread.sleep(1000);
         editAddressPage.selectZone("Kara");
-        // editAddressPage.clickNoDefault();
+        editAddressPage.clickNoDefault();
         editAddressPage.clickContinueButton();
+        Assert.assertEquals(editAddressPage.getErorrText(), "First Name must be between 1 and 32 characters!");
     }
 
-    @Test(groups = "edit")
-    public void editAddressMinSymbols() {
+    @Test(groups = {"edit", "create"})
+    public void editAddressMinSymbols() throws InterruptedException {
         editAddressPage.inputFirstname("a");
         editAddressPage.inputLastname("a");
         editAddressPage.inputCompany("a");
@@ -119,15 +147,16 @@ public class OpenCartTest
         editAddressPage.inputCity("aa");
         editAddressPage.inputPostcode("aa");
         editAddressPage.selectCountry("Togo");
-
-        //Thread.sleep(1000);
+        Thread.sleep(1000);
         editAddressPage.selectZone("Kara");
-        // editAddressPage.clickNoDefault();
+        editAddressPage.clickNoDefault();
         editAddressPage.clickContinueButton();
+        addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
+        Assert.assertEquals(addressBookPage.getUpdateText(), assureString);
     }
 
-    @Test(groups = "edit")
-    public void editAddressMaxSymbols() {
+    @Test(groups = {"edit", "create"})
+    public void editAddressMaxSymbols() throws InterruptedException {
         editAddressPage.inputFirstname("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         editAddressPage.inputLastname("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         editAddressPage.inputCompany("a");
@@ -135,84 +164,52 @@ public class OpenCartTest
         editAddressPage.inputCity("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         editAddressPage.inputPostcode("aaaaaaaaaa");
         editAddressPage.selectCountry("Togo");
-
-        //Thread.sleep(1000);
+        Thread.sleep(1000);
         editAddressPage.selectZone("Kara");
-        // editAddressPage.clickNoDefault();
+        editAddressPage.clickYesDefault();
         editAddressPage.clickContinueButton();
+        addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
+        Assert.assertEquals(addressBookPage.getUpdateText(), assureString);
     }
 
-    @Test(groups = "edit")
-    public void editAddressUnderMaxSymbols() {
-        editAddressPage.inputFirstname("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    @Test(groups = {"edit", "create"})
+    public void editAddressUnderMaxSymbols() throws InterruptedException {
+        editAddressPage.inputFirstname("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         editAddressPage.inputLastname("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         editAddressPage.inputCompany("aa");
         editAddressPage.inputAddress1("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         editAddressPage.inputCity("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         editAddressPage.inputPostcode("aaaaaaaaaaa");
         editAddressPage.selectCountry("Togo");
-
-        //Thread.sleep(1000);
+        Thread.sleep(1000);
         editAddressPage.selectZone("Kara");
-        // editAddressPage.clickNoDefault();
+        editAddressPage.clickNoDefault();
         editAddressPage.clickContinueButton();
+        Assert.assertEquals(editAddressPage.getErorrText(), "First Name must be between 1 and 32 characters!");
+
     }
-    @Test(groups = "edit")
+
+    @Test(groups = {"edit", "create"})
     public void editBackButton() {
         editAddressPage.clickBackButton();
+        Assert.assertEquals(driver.getCurrentUrl(), "http://192.168.112.131/opencart/upload/index.php?route=account/address");
     }
 
     @Test
-    public void deleteAddress() {
-    addressBookPage.deleteClick();
-}
-
-    @Test(groups = "create")
-    public void createAddressNormalData() {
-        editAddressPage.inputFirstname("andrii");
-        editAddressPage.inputLastname("Iatskiv");
-        editAddressPage.inputCompany("hzCompany");
-        editAddressPage.inputAddress1("Lychakivska street");
-        editAddressPage.inputCity("Kyiv");
-        editAddressPage.inputPostcode("30037");
-        editAddressPage.selectCountry("Togo");
-        editAddressPage.selectZone("Kara");
-        // editAddressPage.clickNoDefault();
-        editAddressPage.clickContinueButton();
-    }
-    @Test(groups = "create")
-    public void createAddressNumbers() {
+    public void deleteAddress() throws InterruptedException {
+        addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
+        Thread.sleep(1000);
+        addressBookPage.deleteClick();
+        Assert.assertEquals(addressBookPage.getUpdateText(), "Your address has been successfully deleted");
 
     }
 
-    @Test(groups = "create")
-    public void createAddressSpecSymbols() {
+    @Test
+    public void deleteAddressNeg() throws InterruptedException {
+        addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
+        addressBookPage.deleteClick();
+        Thread.sleep(1000);
+        Assert.assertEquals(addressBookPage.getWarningText(), "Warning: You can not delete your default address!");
 
     }
-
-    @Test(groups = "create")
-    public void createAddressEmptyData() {
-
-    }
-
-    @Test(groups = "create")
-    public void createAddressMinSymbols() {
-
-    }
-
-    @Test(groups = "create")
-    public void createAddressMaxSymbols() {
-
-    }
-
-    @Test(groups = "create")
-    public void createAddressUnderMaxSymbols() {
-
-    }
-
-    @Test(groups = "create")
-    public void createBackButton() {
-
-    }
-
 }

@@ -1,4 +1,4 @@
-package com.opencart.pages;
+package com.opencart.OtherPages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,7 +28,7 @@ public class RegisterPage {
     @FindBy(name = "agree")
     private WebElement agreeCheckBox;
 
-    @FindBy(xpath = "/html/body/div[2]/div/div/form/div/div/input[2]")
+    @FindBy(xpath = "//input[@class = 'btn btn-primary']")
     private WebElement ContinueButton;
 
     public RegisterPage(WebDriver driver)
