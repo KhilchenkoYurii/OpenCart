@@ -11,34 +11,48 @@ import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+/**
+ *  This class for testing Address Book page
+ *
+ * @version 1.0
+ * @author Yurii Khilchenko
+ */
 public class OpenCartTest {
+
+    /** This variable is a personal web driver */
     private WebDriver driver;
+
+    /** This variable is a Edit Address page */
     private EditAddressPage editAddressPage;
+
+    /** This variable is a Address Book page */
     private AddressBookPage addressBookPage;
+
+    /** This variable for ensure equals Warning/Success message with expected string */
     private String assureString;
 
+    /** This Before Class method open Main Page, login as user and go to Address Book page */
     @BeforeClass(alwaysRun = true)
     public void login() {
         System.setProperty("webdriver.chrome.driver", "C:\\chromedriver.exe");
         driver = new ChromeDriver();
-
         MainPage MainPage = PageFactory.initElements(driver, MainPage.class);
         MainPage.open();
         MainPage.clickOnAccount();
         MainPage.clickOnLogin();
-
         LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
         loginPage.logining();
-
         MyAccountPage myAccount = PageFactory.initElements(driver, MyAccountPage.class);
         myAccount.addressClick();
     }
 
+    /** This After Class method close web driver */
     @AfterClass(alwaysRun = true)
     public void exit() {
         driver.close();
     }
 
+    /** This Before Groups method go to Edit Address page */
     @BeforeGroups(groups = "edit")
     public void toEdit() {
         assureString = "Your address has been successfully updated";
@@ -47,6 +61,7 @@ public class OpenCartTest {
         editAddressPage = PageFactory.initElements(driver, EditAddressPage.class);
     }
 
+    /** This Before Groups method go to Add New Address page */
     @BeforeGroups(groups = "create")
     public void toCreate() {
         assureString = "Your address has been successfully inserted";
@@ -55,6 +70,7 @@ public class OpenCartTest {
         editAddressPage = PageFactory.initElements(driver, EditAddressPage.class);
     }
 
+    /** This method return at Edit Address page after everyone test from group Create */
     @AfterMethod(groups = "create")
     public void toAddressBookCreate() {
         addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
@@ -63,6 +79,7 @@ public class OpenCartTest {
         editAddressPage = PageFactory.initElements(driver, EditAddressPage.class);
     }
 
+    /** This method return at Edit Address page after everyone test from group Edit */
     @AfterMethod(groups = "edit")
     public void toAddressBookEdit() {
         addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
@@ -71,6 +88,7 @@ public class OpenCartTest {
         editAddressPage = PageFactory.initElements(driver, EditAddressPage.class);
     }
 
+    /** This method test Add New Address and Edit Address page with normal data in input fields */
     @Test(groups = {"edit", "create"})
     public void editAddressNormalData() throws InterruptedException {
         editAddressPage.inputFirstname("andrii");
@@ -88,6 +106,7 @@ public class OpenCartTest {
         Assert.assertEquals(addressBookPage.getUpdateText(), assureString);
     }
 
+    /** This method test Add New Address and Edit Address page with number in input fields */
     @Test(groups = {"edit", "create"})
     public void editAddressNumbers() throws InterruptedException {
         editAddressPage.inputFirstname("12345");
@@ -105,6 +124,7 @@ public class OpenCartTest {
         Assert.assertEquals(addressBookPage.getUpdateText(), assureString);
     }
 
+    /** This method test Add New Address and Edit Address page with special symbols in input fields */
     @Test(groups = {"edit", "create"})
     public void editAddressSpecSymbols() throws InterruptedException {
         editAddressPage.inputFirstname("!@#$%");
@@ -122,6 +142,7 @@ public class OpenCartTest {
         Assert.assertEquals(addressBookPage.getUpdateText(), assureString);
     }
 
+    /** This method test Add New Address and Edit Address page with empty data in input fields */
     @Test(groups = {"edit", "create"})
     public void editAddressEmptyData() throws InterruptedException {
         editAddressPage.inputFirstname("");
@@ -135,9 +156,10 @@ public class OpenCartTest {
         editAddressPage.selectZone("Kara");
         editAddressPage.clickNoDefault();
         editAddressPage.clickContinueButton();
-        Assert.assertEquals(editAddressPage.getErorrText(), "First Name must be between 1 and 32 characters!");
+        Assert.assertEquals(editAddressPage.getErrorText(), "First Name must be between 1 and 32 characters!");
     }
 
+    /** This method test Add New Address and Edit Address page with minimum input symbols in input fields */
     @Test(groups = {"edit", "create"})
     public void editAddressMinSymbols() throws InterruptedException {
         editAddressPage.inputFirstname("a");
@@ -155,6 +177,7 @@ public class OpenCartTest {
         Assert.assertEquals(addressBookPage.getUpdateText(), assureString);
     }
 
+    /** This method test Add New Address and Edit Address page with maximum input symbols in input fields */
     @Test(groups = {"edit", "create"})
     public void editAddressMaxSymbols() throws InterruptedException {
         editAddressPage.inputFirstname("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
@@ -172,6 +195,7 @@ public class OpenCartTest {
         Assert.assertEquals(addressBookPage.getUpdateText(), assureString);
     }
 
+    /** This method test Add New Address and Edit Address page with under maximum input symbols in input fields */
     @Test(groups = {"edit", "create"})
     public void editAddressUnderMaxSymbols() throws InterruptedException {
         editAddressPage.inputFirstname("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
@@ -185,31 +209,24 @@ public class OpenCartTest {
         editAddressPage.selectZone("Kara");
         editAddressPage.clickNoDefault();
         editAddressPage.clickContinueButton();
-        Assert.assertEquals(editAddressPage.getErorrText(), "First Name must be between 1 and 32 characters!");
+        Assert.assertEquals(editAddressPage.getErrorText(), "First Name must be between 1 and 32 characters!");
 
     }
 
+    /** This method test Back button in Add New Address and Edit Address pages */
     @Test(groups = {"edit", "create"})
     public void editBackButton() {
         editAddressPage.clickBackButton();
-        Assert.assertEquals(driver.getCurrentUrl(), "http://192.168.112.131/opencart/upload/index.php?route=account/address");
+        Assert.assertEquals(driver.getCurrentUrl(), "http://192.168.112.132/opencart/upload/index.php?route=account/address");
     }
 
+    /** This method test delete button in Address Book page */
     @Test
     public void deleteAddress() throws InterruptedException {
         addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
         Thread.sleep(1000);
         addressBookPage.deleteClick();
         Assert.assertEquals(addressBookPage.getUpdateText(), "Your address has been successfully deleted");
-
-    }
-
-    @Test
-    public void deleteAddressNeg() throws InterruptedException {
-        addressBookPage = PageFactory.initElements(driver, AddressBookPage.class);
-        addressBookPage.deleteClick();
-        Thread.sleep(1000);
-        Assert.assertEquals(addressBookPage.getWarningText(), "Warning: You can not delete your default address!");
 
     }
 }
