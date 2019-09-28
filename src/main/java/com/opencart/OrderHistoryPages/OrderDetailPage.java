@@ -1,5 +1,7 @@
 package com.opencart.OrderHistoryPages;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -12,16 +14,19 @@ import org.openqa.selenium.support.FindBy;
 public class OrderDetailPage {
 
     /** This variable is button Return Order */
-    @FindBy(xpath = "//td[contains(text(),'iPhone')]/following-sibling::td/a[contains(@class,'btn btn-danger')]")
     private WebElement returnButton;
 
     /** This variable is button Reorder Order */
-    @FindBy(xpath = "//td[contains(text(),'iPhone')]/following-sibling::td/a[contains(@class,'btn btn-primary')]")
     private WebElement reorderButton;
 
     /** This variable for catching message about success reordering */
-    @FindBy(xpath = "//div[@class = 'alert alert-success']")
     private WebElement actionMessage;
+
+    public OrderDetailPage(WebDriver driver) {
+        this.returnButton = driver.findElement(By.xpath("//td[contains(text(),'iPhone')]/following-sibling::td/a[contains(@class,'btn btn-danger')]"));
+        this.reorderButton = driver.findElement(By.xpath("//td[contains(text(),'iPhone')]/following-sibling::td/a[contains(@class,'btn btn-primary')]"));
+        this.actionMessage = driver.findElement(By.xpath("//div[@class = 'alert alert-success']"));
+    }
 
     /** This method for click on button Return Order */
     public void returnButtonClick() {

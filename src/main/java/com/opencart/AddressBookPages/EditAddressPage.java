@@ -2,6 +2,7 @@ package com.opencart.AddressBookPages;
 
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -14,60 +15,63 @@ import org.openqa.selenium.support.FindBy;
 public class EditAddressPage {
 
     /** This variable is input field FirstName */
-    @FindBy(id = "input-firstname")
     private WebElement firstname;
 
     /** This variable is input field LastName */
-    @FindBy(id = "input-lastname")
     private WebElement lastname;
 
     /** This variable is input field Company */
-    @FindBy(id = "input-company")
     private WebElement company;
 
     /** This variable is input field First Address */
-    @FindBy(name = "address_1")
     private WebElement firstAddress;
 
     /** This variable is input field Second Address */
-    @FindBy(name = "address_2")
     private WebElement secondAddress;
 
     /** This variable is input field City */
-    @FindBy(id = "input-city")
     private WebElement city;
 
     /** This variable is input field PostCode */
-    @FindBy(id = "input-postcode")
     private WebElement postcode;
 
     /** This variable is dropdown menu Country */
-    @FindBy(id = "input-country")
     private WebElement country;
 
     /** This variable is dropdown menu Region/Stait */
-    @FindBy(id = "input-zone")
     private WebElement zone;
 
     /** This variable is yes button for check Default Address */
-    @FindBy(xpath = "//input[@name ='default' and @value ='1']")
     private WebElement yesButton;
 
     /** This variable is no button for check Default Address */
-    @FindBy(xpath = "//input[@name ='default' and @value ='0']")
     private WebElement noButton;
 
     /** This variable is Continue button */
-    @FindBy(xpath = "//input[@class='btn btn-primary']")
     private WebElement continueButton;
 
     /** This variable is Back button */
-    @FindBy(xpath = "//a[@class='btn btn-default']")
     private WebElement backButton;
 
     /** This variable for catching message about something error in firs input field*/
-    @FindBy(xpath = "//div[contains(@class,'text-danger')]")
     private WebElement errorText;
+
+    public EditAddressPage(WebDriver driver) {
+        this.firstname = driver.findElement(By.id("input-firstname"));
+        this.lastname = driver.findElement(By.id("input-lastname"));
+        this.company = driver.findElement(By.id("input-company"));
+        this.firstAddress = driver.findElement(By.name("address_1"));
+        this.secondAddress = driver.findElement(By.name("address_2"));
+        this.city = driver.findElement(By.id("input-city"));
+        this.postcode = driver.findElement(By.id("input-postcode"));
+        this.country = driver.findElement(By.id("input-country"));
+        this.zone = driver.findElement(By.id("input-zone"));
+        this.yesButton = driver.findElement(By.xpath("//input[@name ='default' and @value ='1']"));
+        this.noButton = driver.findElement(By.xpath("//input[@name ='default' and @value ='0']"));
+        this.continueButton = driver.findElement(By.xpath("//input[@class='btn btn-primary']"));
+        this.backButton = driver.findElement(By.xpath("//a[@class='btn btn-default']"));
+        this.errorText = driver.findElement(By.xpath("//div[contains(@class,'text-danger')]"));
+    }
 
     /** This method for input text in field FirstName */
     public void inputFirstname(String text) {

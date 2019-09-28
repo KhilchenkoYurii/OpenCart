@@ -1,5 +1,6 @@
 package com.opencart.OrderHistoryPages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,11 +14,14 @@ import org.openqa.selenium.support.FindBy;
 public class OrderHistoryPage {
 
     /** This variable is a base url fo this page */
-    private static final String URL = "http://192.168.112.132/opencart/upload/index.php?route=account/order";
+    private static final String URL = "http://192.168.112.133/opencart/upload/index.php?route=account/order";
 
     /** This variable is button Look Order */
-    @FindBy(xpath = "//td[contains(text(),'#3')]/following-sibling::td/a[contains(@class,'btn btn-info')]")
     private WebElement lookButton;
+
+    public OrderHistoryPage(WebDriver driver) {
+        this.lookButton = driver.findElement(By.xpath("//td[contains(text(),'#3')]/following-sibling::td/a[contains(@class,'btn btn-info')]"));
+    }
 
     /** This a personal web driver on page Order History */
     private WebDriver driver;

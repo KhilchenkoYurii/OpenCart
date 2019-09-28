@@ -62,7 +62,7 @@ public class OrderHistoryTest {
     @Test
     public void orderDetailTest() {
         orderHistoryPage.lookClick();
-        Assert.assertEquals(driver.getCurrentUrl(),"http://192.168.112.132/opencart/upload/index.php?route=account/order/info&order_id=3");
+        Assert.assertEquals(driver.getCurrentUrl(),"http://192.168.112.133/opencart/upload/index.php?route=account/order/info&order_id=3");
     }
 
     /** This test-method check button ReOrder Order */
@@ -86,7 +86,7 @@ public class OrderHistoryTest {
         returnOrderPage.selectReturnReason();
         returnOrderPage.submitButtonClick();
         Thread.sleep(1000);
-        Assert.assertEquals(driver.getCurrentUrl(),"http://192.168.112.132/opencart/upload/index.php?route=account/return/success");
+        Assert.assertEquals(driver.getCurrentUrl(),"http://192.168.112.133/opencart/upload/index.php?route=account/return/success");
     }
 
 

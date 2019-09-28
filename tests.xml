@@ -28,7 +28,6 @@
             <class name="com.opencart.OpenCartTest">
                 <methods>
                     <include name="deleteAddress"/>
-                    <include name="deleteAddressNeg"/>
                 </methods>
             </class>
             <class name="com.opencart.OrderHistoryTest">

@@ -1,5 +1,6 @@
 package com.opencart.AddressBookPages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,35 +14,39 @@ import org.openqa.selenium.support.FindBy;
 public class AddressBookPage {
 
     /** This a base url for page Address Book */
-    private static final String BASE_URL = "http://192.168.112.132/opencart/upload/index.php?route=account/address";
+    private static final String BASE_URL = "http://192.168.112.133/opencart/upload/index.php?route=account/address";
 
     /** This a  personal webdriver for open base url */
     private WebDriver driver;
 
     /** This variable for address information on page */
-    @FindBy(className = "text-left")
     private WebElement addressText;
 
     /** This variable for button Edit on page */
-    @FindBy(linkText = "Edit")
     private WebElement editButton;
 
     /** This variable for button Delete on page */
-    @FindBy(xpath = "//a[contains(@class,'btn btn-danger')]")
     private WebElement deleteButton;
 
     /** This variable for button New Address on page */
-    @FindBy(linkText = "New Address")
     private WebElement newAddressButton;
 
     /** This variable for catching message about success update */
-    @FindBy(xpath = "//div[contains(@class,'alert alert-success')]")
     private WebElement updateText;
 
     /** This variable for catching message with warning */
-    @FindBy(xpath = "//div[contains(@class,'alert alert-warning')]")
     private WebElement warningText;
 
+    public AddressBookPage() {
+        addressText = driver.findElement(By.className("text-left"));
+        editButton = driver.findElement(By.linkText("Edit"));
+        deleteButton = driver.findElement(By.xpath("//a[contains(@class,'btn btn-danger')]"));
+        newAddressButton = driver.findElement(By.linkText("New Address"));
+        updateText = driver.findElement(By.xpath("//div[contains(@class,'alert alert-success')]"));
+        warningText = driver.findElement(By.xpath("//div[contains(@class,'alert alert-warning')]"));
+
+
+    }
     /** This method opening page*/
     public void openPage(WebDriver driver){
         this.driver = driver;

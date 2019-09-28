@@ -13,7 +13,7 @@ import org.openqa.selenium.support.FindBy;
 public class MainPage {
 
     /** This variable is a base url for Main page */
-    private static final String BASE_URL = "http://192.168.112.132/opencart/upload/";
+    private static final String BASE_URL = "http://192.168.112.133/opencart/upload/";
 
     /** This variable is a personal web driver */
     private WebDriver driver;
@@ -29,6 +29,8 @@ public class MainPage {
     /** This variable for link at Login page */
     @FindBy(linkText = "Login")
     private WebElement loginLink;
+
+
 
     /** This argument constructor for Main page */
     public MainPage(WebDriver driver)

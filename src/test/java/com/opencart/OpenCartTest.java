@@ -217,7 +217,7 @@ public class OpenCartTest {
     @Test(groups = {"edit", "create"})
     public void editBackButton() {
         editAddressPage.clickBackButton();
-        Assert.assertEquals(driver.getCurrentUrl(), "http://192.168.112.132/opencart/upload/index.php?route=account/address");
+        Assert.assertEquals(driver.getCurrentUrl(), "http://192.168.112.133/opencart/upload/index.php?route=account/address");
     }
 
     /** This method test delete button in Address Book page */
